@@ -7,3 +7,5 @@
  
 3. Game Project for Hellion
   - Unreal Engine 사용법 익히기
+  - 3D Max, Maya 사용법 익히기
+  - C++ 언어 공부
