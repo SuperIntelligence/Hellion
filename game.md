@@ -2,7 +2,7 @@
 	- Sudo Coding for Game Programming Project
 	- It will be Implement with Python or Unreal Engine
 
-1.Basic Concept
+1. Basic Concept
 	- MMORPG로 제작. 하루에 일정 시간동안만 서비스하고(24시간 서비스할 경우 로그아웃하는 사이 뒤통수를 맞을 수 있음), 자유로운 PK를 장려.
 	- 세력이 클 경우 한타 싸움에서는 강력하나, 식량 수급과 보급품 조달에 어려움이 생김.
 	- 소수의 캐릭터를 강하게 키울 경우, 한타 싸움에서는 상대적으로 비효율적이지만, 적의 보급선 및 심장부를 타격하는 데 용이.
