@@ -1,5 +1,6 @@
-Sudo Coding for Game Programming Project
-It will be Implement with Python or Unreal Engine
+0. Introduction
+	- Sudo Coding for Game Programming Project
+	- It will be Implement with Python or Unreal Engine
 
 1.Basic Concept
 	- MMORPG로 제작. 하루에 일정 시간동안만 서비스하고(24시간 서비스할 경우 로그아웃하는 사이 뒤통수를 맞을 수 있음), 자유로운 PK를 장려.
