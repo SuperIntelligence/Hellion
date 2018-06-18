@@ -39,3 +39,17 @@
 	- 추가 스킬. build, gather, magic(추후 마법 유닛 추가시)
 
 
+5. 게임 흐름
+	- (1) Initial Setting
+		- 임의의 장소에 Farmer 4기, Caravan 1기(식량 20000), Warrior 4기, Archor 2기, Knight 1기 배정
+	- (2) Main Game Loop
+		- Drawmap: Map, MiniMap, Troops, Interface 그리기. 월드의 상태 정보를 반영
+		- ReceiveInput: 사용자의 마우스, 키보드 입력을 받음
+		- ProcessInput: 사용자에게서 받은 입력을 처리
+			- MouseClick(MouseX, MouseY)
+			- KeyBoard(Move, Stop, Attack, Patrol, Hold) + Optional(Build, Gather, etc)
+			- KeyBoard(Command Center, Storage, Barrack)
+			- KeyBoard(Farmer, Caravan)
+			- KeyBoard(Footman, Archer, Knight)
+		- UpdateCharacterCommand: 필요한 경우, 캐릭터가 수행하는 명령을 업데이트
+		- ProcessCharacter: 캐릭터 이동, 공격 등의 행동 수행
