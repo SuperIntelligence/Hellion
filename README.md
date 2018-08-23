@@ -7,6 +7,6 @@
  
 3. Game Project for Hellion
   - Unreal Engine 사용법 익히기
-    - Topdownexample 템플릿 분석
-  - 3D Max, Maya 사용법 익히기
-  - C++ 언어 공부
+    - Udemy 강좌 듣기
+  - Blender 사용법 익히기
+  - C++ 언어 공부(완료)
