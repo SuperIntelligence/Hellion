@@ -326,3 +326,98 @@ def drawbasic():
     pygame.draw.line(DISPLAYSURF, black, (900,600), (900,900), 5)
     
     if playerstate.controlstate == 0:
+        if len(playerstate.controlunits) == 0:
+            pass
+        elif len(playerstate.controlunits) == 1:
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,750), 3)
+            pygame.draw.line(DISPLAYSURF, black, (300,750), (450,750), 3)
+        elif len(playerstate.controlunits) >= 2:
+            pygame.draw.line(DISPLAYSURF, black, (375,600), (375,900))
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,900))
+            pygame.draw.line(DISPLAYSURF, black, (525,600), (525,900))
+            pygame.draw.line(DISPLAYSURF, black, (600,600), (600,900))
+            pygame.draw.line(DISPLAYSURF, black, (675,600), (675,900))
+            pygame.draw.line(DISPLAYSURF, black, (750,600), (750,900))
+            pygame.draw.line(DISPLAYSURF, black, (825,600), (825,900))
+            
+            pygame.draw.line(DISPLAYSURF, black, (300,700), (900,700))
+            pygame.draw.line(DISPLAYSURF, black, (300,800), (900,800))
+    elif playerstate.controlstate == 1:
+        if len(playerstate.controlstructure) == 0:
+            pass
+        elif len(playerstate.controlstructure) == 1:
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,750), 3)
+            pygame.draw.line(DISPLAYSURF, black, (300,750), (450,750), 3)
+        elif len(playerstate.controlstructure) >= 2:
+            pygame.draw.line(DISPLAYSURF, black, (375,600), (375,900))
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,900))
+            pygame.draw.line(DISPLAYSURF, black, (525,600), (525,900))
+            pygame.draw.line(DISPLAYSURF, black, (600,600), (600,900))
+            pygame.draw.line(DISPLAYSURF, black, (675,600), (675,900))
+            pygame.draw.line(DISPLAYSURF, black, (750,600), (750,900))
+            pygame.draw.line(DISPLAYSURF, black, (825,600), (825,900))
+            
+            pygame.draw.line(DISPLAYSURF, black, (300,700), (900,700))
+            pygame.draw.line(DISPLAYSURF, black, (300,800), (900,800))
+  
+
+def drawmap():
+    pass
+
+def drawminimap():
+    pass
+
+def drawinterface():
+    pass
+
+def drawcommand():
+    pass
+
+def render():
+    drawbasic()
+    drawmap()
+    drawminimap()
+    drawinterface()
+    drawcommand()
+    
+    pygame.display.update()
+    
+def processinput():
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+            
+def modifygamestate():
+    #final
+    FPSCLOCK.tick(FPS)
+    
+    
+def beginplay():
+    global world, playerstate
+    world.size = [12800,12800]
+    # spawn
+    townhall = Ctownhall([640,640])
+    world.structures.append(copy.deepcopy(townhall))
+    
+    worker = Cworker([640,800], [640,800])
+    world.units.append(copy.deepcopy(worker))
+    
+    worker = Cworker([672,800], [672,800])
+    world.units.append(copy.deepcopy(worker))
+    
+    worker = Cworker([704,800], [704,800])
+    world.units.append(copy.deepcopy(worker))
+    
+    worker = Cworker([736,800], [736,800])
+    world.units.append(copy.deepcopy(worker))
+    
+    worker = Cworker([778,800], [778,800])
+    world.units.append(copy.deepcopy(worker))
+    
+beginplay()
+
+while True:
+    render()
+    processinput()
+    modifygamestate()
