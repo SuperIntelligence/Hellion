@@ -284,6 +284,19 @@ class Cplayerstate:
     ismousedown = False
     
 # structure
+class Cstructure:
+    image = ""
+    portrait = ""
+    position = [0.0, 0.0]
+    size = [0.0] # pixel
+    possession = 0
+    
+    hp = [0,0]
+    armor = 0
+    
+    def action(self):
+        pass
+
 class Ctownhall(Cstructure):
     supply = 10
     
@@ -413,10 +426,49 @@ def drawbasic():
   
 
 def drawmap():
-    pass
+    global world, playerstate
+    # use playerstate->camera, world
+    cameraX = playerstate.cameraposition[0]
+    cameraY = playerstate.cameraposition[1]
+    
+    for unit in world.units:
+        positionX = unit.position[0] - cameraX
+        positionY = unit.position[1] - cameraY
+        
+        sizeX = unit.size[0]
+        sizeY = unit.size[1]
+        img = pygame.image.load(unit.image)
+        img = pygame.transform.scale(img, (sizeX, sizeY))
+        DISPLAYSURF.blit(img, (positionX, positionY))
+        
+    for structrue in world.structures:
+        positionX = structure.position[0] - cameraX
+        positionY = structrue.position[1] - cameraY
+        
+        sizeX = structure.size[0]
+        sizeY = structure.size[1]
+        img = pygame.image.load(structure.image)
+        img = pygame.transform.scale(img, (sizeX, sizeY))
+        DISPLAYSURF.blit(img, (positionX, positionY))
 
 def drawminimap():
-    pass
+    global world, playerstate
+    # draw units and structure, and camera positon
+    for unit in world.units:
+        positionX = unit.position[0] * 300 / world.size[0]
+        positionY = unit.position[1] * 300 / world.size[1] + 600
+        
+        sizeX = 3
+        sizeY = 3
+        pygame.draw.rect(DISPLAYSURF, green, (positionX, positionY, sizeX, sizeY))
+    
+    for structurein world.structures:
+        positionX = structure.position[0] * 300 / world.size[0]
+        positionY = structure.position[1] * 300 / world.size[1] + 600
+        
+        sizeX = 6
+        sizeY = 6
+        pygame.draw.rect(DISPLAYSURF, green, (positionX, positionY, sizeX, sizeY))
 
 def drawinterface():
     pass
