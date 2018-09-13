@@ -56,7 +56,7 @@ class Cunit:
     ispatrolable = True
     isholdable = True
     isgatherable = False
-    ifbuildable = False
+    isbuildable = False
     ispalanxable = False
     isunpalanxable = False
     
@@ -85,7 +85,7 @@ class Cunit:
         pass
     
     def action(self):
-        if currentcommand = 0:
+        if currentcommand == 0:
             self.idle()
         elif currentcommand == 1:
             self.moveground(self.destination)
@@ -157,7 +157,7 @@ class Cworker(Cunit):
     # command: 11-buildhouse, 12-buildbarrack, 13-palanx, 14-unpalanx
     
     def action(self):
-        if currentcommand = 0:
+        if currentcommand == 0:
             self.idle()
         elif currentcommand == 1:
             self.moveground(self.destination)
@@ -309,7 +309,7 @@ class Ctownhall(Cstructure):
     
     # function
     def __init__(self, position):
-        self.image = "/image/townhall.png"
+        self.image = "image/townhall.png"
         self.portrait = ""
         self.position = position
         self.rallypoint = position
@@ -336,7 +336,7 @@ class Ctownhall(Cstructure):
 class Chouse(Cstructure):
     supply = 8
     def __init__(self, position):
-        self.image = "/image/house.png"
+        self.image = "image/house.png"
         self.portrait = ""
         self.position = position
         self.size = [64,64]
@@ -353,7 +353,7 @@ class Cbarrack(Cstructure):
     
     # function
     def __init__(self, position):
-        self.image = "/image/barrack.png"
+        self.image = "image/barrack.png"
         self.portrait = ""
         self.position = position
         self.rallypoint = position
@@ -385,7 +385,7 @@ def drawbasic():
     global world, playerstate
     
     DISPLAYSURF.fill(gray)
-    pygame.draw.line(DISPLAYSURF, black, (0,600), (1200,900), 5)
+    pygame.draw.line(DISPLAYSURF, black, (0,600), (1200,600), 5)
     pygame.draw.line(DISPLAYSURF, black, (300,600), (300,900), 5)
     pygame.draw.line(DISPLAYSURF, black, (900,600), (900,900), 5)
     
@@ -441,9 +441,9 @@ def drawmap():
         img = pygame.transform.scale(img, (sizeX, sizeY))
         DISPLAYSURF.blit(img, (positionX, positionY))
         
-    for structrue in world.structures:
+    for structure in world.structures:
         positionX = structure.position[0] - cameraX
-        positionY = structrue.position[1] - cameraY
+        positionY = structure.position[1] - cameraY
         
         sizeX = structure.size[0]
         sizeY = structure.size[1]
@@ -462,7 +462,7 @@ def drawminimap():
         sizeY = 3
         pygame.draw.rect(DISPLAYSURF, green, (positionX, positionY, sizeX, sizeY))
     
-    for structurein world.structures:
+    for structure in world.structures:
         positionX = structure.position[0] * 300 / world.size[0]
         positionY = structure.position[1] * 300 / world.size[1] + 600
         
@@ -513,10 +513,15 @@ def drawinterface():
         elif len(playerstate.controlunits) >= 2:
             # draw character image. maximum 24.
             length = len(playerstate.controlunits)
+
             
             for i in range(length):
                 x = i % 8
-                y = i / 8
+                y = int(i / 8)
+
+
+
+
                 unit = world.units[playerstate.controlunits[i]]
                 img = pygame.image.load(unit.image)
                 img = pygame.transform.scale(img, (69, 90)) # 75,100 - care about margin
@@ -652,7 +657,7 @@ def drawcommand():
             img = pygame.transform.scale(img, (56,56))
             DISPLAYSURF.blit(img, (1022,602))
         
-    elif playerstate.controlstate == 1 # structure
+    elif playerstate.controlstate == 1: # structure
         if playerstate.commandstate == 0:
             pass
         elif playerstate.commandstate == 1: # select target
@@ -714,7 +719,7 @@ def processinput():
                             if structure.position[0] + structure.size[0] > startX + cameraX and structure.position[0] < endX + cameraX and structure.position[1] + structure.size[1] > startY + cameraY and structure.position[1] < endY + cameraY:
                                 # this unit in drag & drop
                                 tempstructures.append(i)
-                            if len(tempstructrues) > 0:
+                            if len(tempstructures) > 0:
                                 playerstate.controlstructures = copy.deepcopy(tempstructures)
                                 playerstate.controlstate = 1 # structure
                             for i in range(len(world.units)):
@@ -725,90 +730,90 @@ def processinput():
                                 playerstate.controlunits = copy.deepcopy(tempunits)
                                 playerstate.controlstate = 0 # unit
                             
-                        elif playerstate.commandstate == 1:
-                            targetunit = -1
-                            targetstructure = -1
-                            targetstate = 0 # 0-unit, 1-structure
+                    elif playerstate.commandstate == 1:
+                        targetunit = -1
+                        targetstructure = -1
+                        targetstate = 0 # 0-unit, 1-structure
                             
-                            for i in range(len(world.units)):
-                                positionX = world.units[i].position[0]
-                                positionY = world.units[i].position[1]
-                                sizeX = world.units[i].size[0]
-                                sizeY = world.units[i].size[1]
+                        for i in range(len(world.units)):
+                            positionX = world.units[i].position[0]
+                            positionY = world.units[i].position[1]
+                            sizeX = world.units[i].size[0]
+                            sizeY = world.units[i].size[1]
                                 
-                                if positionX < dstX + cameraX and positionX + sizeX > dstX + cameraX and positionY < dstY + cameraY and positionY + sizeY > dstY + cameraY:
-                                    targetunit = i
-                                    targetstate = 0
+                            if positionX < dstX + cameraX and positionX + sizeX > dstX + cameraX and positionY < dstY + cameraY and positionY + sizeY > dstY + cameraY:
+                                targetunit = i
+                                targetstate = 0
                                     
-                            for i in range(len(world.structures)):
-                                positionX = world.structures[i].position[0]
-                                positionY = world.structures[i].position[1]
-                                sizeX = world.structures[i].size[0]
-                                sizeY = world.structures[i].size[1]
+                        for i in range(len(world.structures)):
+                            positionX = world.structures[i].position[0]
+                            positionY = world.structures[i].position[1]
+                            sizeX = world.structures[i].size[0]
+                            sizeY = world.structures[i].size[1]
                                 
-                                if positionX < dstX + cameraX and positionX + sizeX > dstX + cameraX and positionY < dstY + cameraY and positionY + sizeY > dstY + cameraY:
-                                    targetstructure = i
-                                    targetstate = 1
+                            if positionX < dstX + cameraX and positionX + sizeX > dstX + cameraX and positionY < dstY + cameraY and positionY + sizeY > dstY + cameraY:
+                                targetstructure = i
+                                targetstate = 1
                                     
-                            if targetstate == 0: # targeting unit
-                                if targetunit >= 0:
-                                    if playerstate.controlstate == 0:
-                                        if playerstate.currentcommand == 1:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 2 # move target
-                                                world.units[controlunit].targetunit = targetunit
-                                                world.units[controlunit].targetstate = 0
-                                        elif playerstate.currentcommand == 3:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 5 # attack target
-                                                world.units[controlunit].targetunit = targetunit
-                                                world.units[controlunit].targetstate = 0
-                                        elif playerstate.currentcommand == 4:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 7 # patrol target
-                                                world.units[controlunit].targetunit = targetunit
-                                                world.units[controlunit].targetstate = 0
-                                        elif playerstate.currentcommand == 6:
-                                            pass
-                                        elif playerstate.currentcommand == 7:
-                                            pass
-                                        elif playerstate.currentcommand == 8:
-                                            pass
-                                        elif playerstate.currentcommand == 9:
-                                            pass
-
-                                    elif playerstate.controlstate == 1:
+                        if targetstate == 0: # targeting unit
+                            if targetunit >= 0:
+                                if playerstate.controlstate == 0:
+                                    if playerstate.currentcommand == 1:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 2 # move target
+                                            world.units[controlunit].targetunit = targetunit
+                                            world.units[controlunit].targetstate = 0
+                                    elif playerstate.currentcommand == 3:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 5 # attack target
+                                            world.units[controlunit].targetunit = targetunit
+                                            world.units[controlunit].targetstate = 0
+                                    elif playerstate.currentcommand == 4:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 7 # patrol target
+                                            world.units[controlunit].targetunit = targetunit
+                                            world.units[controlunit].targetstate = 0
+                                    elif playerstate.currentcommand == 6:
                                         pass
+                                    elif playerstate.currentcommand == 7:
+                                        pass
+                                    elif playerstate.currentcommand == 8:
+                                        pass
+                                    elif playerstate.currentcommand == 9:
+                                        pass
+
+                                elif playerstate.controlstate == 1:
+                                    pass
                                     
-                            elif targetstate == 1: # targeting structure
-                                if targetstructure >= 0:
-                                    if playerstate.controlstate == 0:
-                                        if playerstate.currentcommand == 1:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 2 # move target
-                                                world.units[controlunit].targetstructure = targetstructure
-                                                world.units[controlunit].targetstate = 1
-                                        elif playerstate.currentcommand == 3:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 5 # attack target
-                                                world.units[controlunit].targetstructure = targetstructure
-                                                world.units[controlunit].targetstate = 1
-                                        elif playerstate.currentcommand == 4:
-                                            for controlunit in playerstate.controlunits:
-                                                world.units[controlunit].currentcommand = 7 # patrol target
-                                                world.units[controlunit].targetstructure = targetstructure
-                                                world.units[controlunit].targetstate = 1
-                                        elif playerstate.currentcommand == 6:
-                                            pass
-                                        elif playerstate.currentcommand == 7:
-                                            pass
-                                        elif playerstate.currentcommand == 8:
-                                            pass
-                                        elif playerstate.currentcommand == 9:
-                                            pass
-
-                                    elif playerstate.controlstate == 1:
+                        elif targetstate == 1: # targeting structure
+                            if targetstructure >= 0:
+                                if playerstate.controlstate == 0:
+                                    if playerstate.currentcommand == 1:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 2 # move target
+                                            world.units[controlunit].targetstructure = targetstructure
+                                            world.units[controlunit].targetstate = 1
+                                    elif playerstate.currentcommand == 3:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 5 # attack target
+                                            world.units[controlunit].targetstructure = targetstructure
+                                            world.units[controlunit].targetstate = 1
+                                    elif playerstate.currentcommand == 4:
+                                        for controlunit in playerstate.controlunits:
+                                            world.units[controlunit].currentcommand = 7 # patrol target
+                                            world.units[controlunit].targetstructure = targetstructure
+                                            world.units[controlunit].targetstate = 1
+                                    elif playerstate.currentcommand == 6:
                                         pass
+                                    elif playerstate.currentcommand == 7:
+                                        pass
+                                    elif playerstate.currentcommand == 8:
+                                        pass
+                                    elif playerstate.currentcommand == 9:
+                                        pass
+
+                                elif playerstate.controlstate == 1:
+                                    pass
                                     
                         elif playerstate.controlstate == 1:
                             pass
@@ -839,23 +844,26 @@ def beginplay():
     global world, playerstate
     world.size = [12800,12800]
     # spawn
-    townhall = Ctownhall([640,640])
+    townhall = Ctownhall([640,140])
     world.structures.append(copy.deepcopy(townhall))
     
-    worker = Cworker([640,800], [640,800])
+    worker = Cworker([640,300], [640,300])
     world.units.append(copy.deepcopy(worker))
     
-    worker = Cworker([672,800], [672,800])
+    worker = Cworker([672,300], [672,300])
     world.units.append(copy.deepcopy(worker))
     
-    worker = Cworker([704,800], [704,800])
+    worker = Cworker([704,300], [704,300])
     world.units.append(copy.deepcopy(worker))
     
-    worker = Cworker([736,800], [736,800])
+    worker = Cworker([736,300], [736,300])
     world.units.append(copy.deepcopy(worker))
     
-    worker = Cworker([778,800], [778,800])
+    worker = Cworker([768,300], [768,300])
     world.units.append(copy.deepcopy(worker))
+
+    warrior = Cwarrior([800,300], [800,300])
+    world.units.append(copy.deepcopy(warrior))
     
 beginplay()
 
