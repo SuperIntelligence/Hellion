@@ -23,6 +23,7 @@ DISPLAYSURF.fill(gray)
 
 # class
 class Cunit:
+    name = ""
     image = ""
     portrait = ""
     troopsicon= ""
@@ -42,9 +43,26 @@ class Cunit:
     # command: 11-buildhouse, 12-buildbarrack, 13-palanx, 14-unpalanx
     
     currentcommand = 0 # idle
-    target = 0
+    targetunit  = -1 # target unit number
+    targetstructure = -1 # target structrue number
+    targetstate = 0 # 0-unit, 1-structure
+    
     source = [0.0, 0.0]
     destination = [0.0, 0.0]
+    
+    ismoveable = True
+    isstopable = True
+    isattackable = True
+    ispatrolable = True
+    isholdable = True
+    isgatherable = False
+    ifbuildable = False
+    ispalanxable = False
+    isunpalanxable = False
+    
+    isbuildtownhallable = False
+    isbuildhouseable = False
+    ifbuildbarrackable = False
     
     #function
     def idle(self):
@@ -86,15 +104,15 @@ class Cunit:
         elif currentcommand == 8:
             self.hold()
 
-            
 class Cworker(Cunit):
     resource = 0
     
-    def __init__(self, position, destination):
+    def __init__(self, position, destination): #destination is just for rally point
+        self.name = "worker"
         self.image = "image/worker.png"
         self.position = position
         self.size = [32,32]
-        self.possession = 1
+        self.possession = 1 # local player. need to be modify when extended
         
         self.hp = [100,100]
         self.sp = [100,100]
@@ -109,18 +127,34 @@ class Cworker(Cunit):
         else:
             currentcomand = 1 # moveground
         
-        self.target = 0
+        self.targetunit = -1
+        self.targetstructure = -1
+        self.targetstate = 0 # 0-unit, 1-structure
         self.source = [0.0, 0.0]
         self.destination = destination
         
-    def gather(self, target):
+        self.isgatherable = True
+        self.isbuildable = True
+        
+        self.isbuildtownhallable = True
+        self.isbuildhouseable = True
+        self.isbuildbarrackable = True
+        
+    def gather(self,target):
         pass
+    
     def buildtownhall(self, destination):
         pass
+    
     def buildhouse(self, destination):
         pass
+    
     def buildbarrack(self, destination):
         pass
+    
+    # command: 0-idle, 1-moveground, 2-movetarget, 3-stop, 4-attackground, 5-attacktarget
+    # command: 6-patrolground, 7-patroltarget, 8-hold, 9-gather, 10-buildtownhall
+    # command: 11-buildhouse, 12-buildbarrack, 13-palanx, 14-unpalanx
     
     def action(self):
         if currentcommand = 0:
@@ -150,14 +184,15 @@ class Cworker(Cunit):
         elif currentcommand == 12:
             self.buildbarrack(self.destination)
 
-class Cworker(Cunit):
+class Cwarrior(Cunit):
     ispalanx = False
     
     def __init__(self, position, destination):
+        self.name = "warrior"
         self.image = "image/warrior.png"
         self.position = position
         self.size = [32,32]
-        self.possession = 1
+        self.possession = 1 # local player, need to be modify when extended
         
         self.hp = [200,200]
         self.sp = [100,100]
@@ -170,45 +205,22 @@ class Cworker(Cunit):
         if(position[0] == destination[0] and position[1] == destination[1]):
             currentcommand = 0 # idle
         else:
-            currentcomand = 1 # moveground
+            currentcommand = 1 # moveground
         
-        self.target = 0
-        self.source = [0.0, 0.0]
+        self.targetunit = -1
+        self.targetstructure = -1
+        self.targetstate = 0 # 0-unit, 1-structure
+        self.source =[0.0, 0.0]
         self.destination = destination
+        
+        self.ispalanxable = True
+        self.isunpalanxable = True
         
     def palanx(self):
         self.speed = 2
         self.armor = 5
         self.ispalanx = True
-    def unpalanx(self):
-        self.speed = 5
-        self.armor = 2
-        self.ispalanx = False
-    
-    def action(self):
-        if currentcommand = 0:
-            self.idle()
-        elif currentcommand == 1:
-            self.moveground(self.destination)
-        elif currentcommand == 2:
-            self.movetarget(self.target)
-        elif currentcommand == 3:
-            self.stop()
-        elif currentcommand == 4:
-            self.attackground(self.destination)
-        elif currentcommand == 5:
-            self.attacktarget(self.target)
-        elif currentcommand == 6:
-            self.patrolground(self.destination)
-        elif currentcommand == 7:
-            self.patroltarget(self.target)
-        elif currentcommand == 8:
-            self.hold()
-        elif currentcommand == 13:
-            self.palanx()
-        elif currentcommand == 14:
-            self.unpalanx()
- 
+        
 
 class Cworld:
     units = []
