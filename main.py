@@ -470,8 +470,86 @@ def drawminimap():
         sizeY = 6
         pygame.draw.rect(DISPLAYSURF, green, (positionX, positionY, sizeX, sizeY))
 
+# testing. need to delete.
+playerstate.controlunits.append(0)
+playerstate.controlunits.append(1)
+playerstate.controlunits.append(2)
+playerstate.controlunits.append(3)
+playerstate.controlunits.append(4)
+playerstate.controlunits.append(5)
+# testing. need to delete.
+   
 def drawinterface():
-    pass
+    global world, playerstate
+    
+    if playerstate.controlstate == 0:
+        if len(playerstate.controlunits) == 0:
+            pass
+        elif len(playerstate.controlunits) == 1:
+            # draw image
+            unit = world.units[playerstate.controlunits[0]]
+            
+            img = pygame.image.load(unit.image)
+            img = pygame.transform.scale(img, (140,140))
+            DISPLAYSURF.blit(img, (305,605))
+            # draw text
+            # hp, sp, attack, armor
+            hp = 'hp: ' + str(unit.hp[0]) + ' / ' + str(unit.hp[1])
+            text = BASICFONT.render(hp, True, black)
+            DISPLAYSURF.blit(text, (520, 620))
+            
+            sp = 'sp: ' + str(unit.sp[0]) + ' / ' + str(unit.sp[1])
+            text = BASICFONT.render(sp, True, black)
+            DISPLAYSURF.blit(text, (520, 650))
+            
+            attack = 'attack: ' + str(unit.attack)
+            text = BASICFONT.render(attack, True, black)
+            DISPLAYSURF.blit(text, (520, 680))
+            
+            armor = 'armor: ' + str(unit.armor)
+            text = BASICFONT.render(armor, True, black)
+            DISPLAYSURF.blit(text, (520, 710))
+            
+        elif len(playerstate.controlunits) >= 2:
+            # draw character image. maximum 24.
+            length = len(playerstate.controlunits)
+            
+            for i in range(length):
+                x = i % 8
+                y = i / 8
+                unit = world.units[playerstate.controlunits[i]]
+                img = pygame.image.load(unit.image)
+                img = pygame.transform.scale(img, (69, 90)) # 75,100 - care about margin
+                DISPLAYSURF.blit(img, (303 + x * 75, 605 + y * 100))
+                # need to extend, when display unit state(especially hp state
+    
+    elif playerstate.controlstate == 1: # structure
+        if len(playerstate.controlstructure) == 0:
+            pass
+        elif len(playerstate.controlstructure) == 1:
+            # draw image
+            structure = world.structures[playerstate.controlstructrues[0]]
+            
+            img = pygame.image.load(structure.image)
+            img = pygame.transform.scale(img, (150,150))
+            DISPLAYSURF.blit(img, (300,600))
+            # draw text
+            # hp, sp, attack, armor
+            hp = 'hp: ' + str(structure.hp[0]) + ' / ' + str(structure.hp[1])
+            text = BASICFONT.render(armor, True, black)
+            DISPLAYSURF.blit(text,(520,710))
+            
+        elif len(playerstate.controlstructures) >= 2:
+            # draw character image. maximum 24.
+            length = len(playerstate.controlstructures)
+            for i in range(length):
+                x = i % 8
+                y = i / 8
+                structure = world.structures[playerstate.controlstructures[i]]
+                img = pygame.image.load(unit.image)
+                img = pygame.transform.scale(img, (69,90)) # 75,100 - care abour margin
+                DISPLAYSURF.blit(img,(303 + x * 75, 605 + y * 100))
+                # need to extend, when display unit state(especially hp state)
 
 def drawcommand():
     pass
