@@ -552,8 +552,117 @@ def drawinterface():
                 # need to extend, when display unit state(especially hp state)
 
 def drawcommand():
-    pass
-
+    global world, playerstate
+    if playerstate.controlstate == 0: #unit
+        if playerstate.commandstate == 0:
+            ismoveable = True
+            isstopable = True
+            isattackable = True
+            ispatrolable = True
+            isholdable = True
+            isgatherable = True
+            isbuildable = True
+            ispalanxable = True
+            isunpalanxable = True
+            
+            if len(playerstate.controlunits) == 0:
+                ismoveable = False
+                isstopable = False
+                isattackable = False
+                ispatrolable = False
+                isholdable = False
+                isgatherable = False
+                isbuildable = False
+                ispalanxable = False
+                isunpalanxable = False
+            
+            elif len(playerstate.controlunits) >= 1:
+                length = len(playerstate.controlunits)
+                for i in range(length):
+                    unit = world.units[playerstate.controlunits[i]]
+                    if unit.ismoveable == False:
+                        ismoveable = False
+                    if unit.isstopable == False:
+                        isstopable = False
+                    if unit.isattackable == False:
+                        isattackable = False        
+                    if unit.ispatrolable == False:
+                        ispatrolable = False        
+                    if unit.isholdable == False:
+                        isholdable = False        
+                    if unit.isgatherable == False:
+                        isgatherable = False        
+                    if unit.isbuildable == False:
+                        isbuildable = False        
+                    if unit.ispalanxable == False:
+                        ispalanxable = False        
+                    if unit.isunpalanxable == False:
+                        isunpalanxable = False
+            # draw
+            if ismoveable == True:
+                img = pygame.image.load("image/move.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (902,602))
+            if isstopable == True:
+                img = pygame.image.load("image/stop.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (962,602))
+            if isattackable == True:
+                img = pygame.image.load("image/attack.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (1022,602))
+            if ispatrolable == True:
+                img = pygame.image.load("image/patrol.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (1082,602))
+            if isholdable == True:
+                img = pygame.image.load("image/hold.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (1142,602))
+            if isgatherable == True:
+                img = pygame.image.load("image/gather.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (902,782))
+            if isbuildable == True:
+                img = pygame.image.load("image/build.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (962,782))
+            if ispalanxable == True:
+                img = pygame.image.load("image/palanx.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (902,842))
+            if isunpalanxable == True:
+                img = pygame.image.load("image/unpalanx.png")
+                img = pygame.transform.scale(img, (56,56))
+                DISPLAYSURF.blit(img, (962,842))
+            
+        elif playerstate.commandstate == 1:
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+        
+        elif playerstate.commandstate == 2:
+            img = pygame.image.load("image/buildtownhall.png")
+            img = pygame.transform.scale(img, (56,56))
+            DISPLAYSURF.blit(img, (902, 602))
+            
+            img = pygame.image.load("image/buildhouse.png")
+            img = pygame.transform.scale(img, (56,56))
+            DISPLAYSURF.blit(img, (1022,602))
+        
+    elif playerstate.controlstate == 1 # structure
+        if playerstate.commandstate == 0:
+            pass
+        elif playerstate.commandstate == 1: # select target
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.bilt(text, (920, 700))
+            
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))      
+            
+            
 def render():
     drawbasic()
     drawmap()
