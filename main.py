@@ -220,12 +220,40 @@ class Cwarrior(Cunit):
         self.speed = 2
         self.armor = 5
         self.ispalanx = True
+    
+    def unpalanx(self):
+        self.speed = 5
+        self.armor = 2
+        self.ispalanx = False
         
+    def action(self):
+        if currentcommand == 0:
+            self.idle()
+        elif currentcommand == 1:
+            self.moveground(self.destination)
+        elif currentcommand == 2:
+            self.movetarget(self.target)
+        elif currentcommand == 3:
+            self.stop()
+        elif currentcommand == 4:
+            self.attackground(self.destination)
+        elif currentcommand == 5:
+            self.attacktarget(self.target)
+        elif currentcommand == 6:
+            self.patrolground(self.destination)
+        elif currentcommand == 7:
+            self.patroltarget(self.target)
+        elif currentcommand == 8:
+            self.hold()
+        elif currentcommand == 13:
+            self.palanx()
+        elif currentcommand == 14:
+            self.unpalanx()
 
 class Cworld:
     units = []
     structures = []
-    size = [0,0]
+    size = [9600,9600]
 
 class Cplayerstate:
     #camera
@@ -239,10 +267,21 @@ class Cplayerstate:
     # 1 -> select target
     # 2 -> select building
     
+    currentcommand = 0 # used to order to units or structrues
+    # if player press 'A' key, then commandstate -> 1,
+    # and currentcommand -> 2.
+    # 0-idle, 1-move, 2-stop, 3-attack, 4-patrol, 5-hold, 6-gather
+    # 7-buildtownhall, 8-buildhouse, 9-buildbarrack
+    # 10-palanx, 11-unpalanx
+    
     # troops
     controlstate = 0 # 0-units, 1-structure
     controlunits = []
     controlstructure = []
+    
+    # mouse
+    mousedownpos = [0,0]
+    ismousedown = False
     
 # structure
 class Ctownhall(Cstructure):
