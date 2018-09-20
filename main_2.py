@@ -276,5 +276,62 @@ class Cinterface:
             pass
         
     # render and processinput
+    def tick():
+        DISPLAYSURF.fill(gray)
+        # draw map
+        for actor in world.actors:
+            positionX = unit.position[0] - cameraX
+            positionY = unit.position[1] - cameraY
             
+            img = pygame.image.load(actor.image)
+            img = pygame.transform.scale(img, (actor.size, actor.size))
+            DISPLAYSURF.blit(img, (positionX, positionY))
+            
+        pygame.draw.rect(DISPLAYSURF, gray, (0,600,1200,300))
+        pygame.draw.line(DISPLAYSURF, black, (0,600), (1200,600), 5)
+        pygame.draw.line(DISPLAYSURF, black, (300,600), (300,900), 5)
+        pygame.draw.line(DISPLAYSURF, black, (900,600), (900,900), 5)
+        
+        # draw minimap
+        for actor in world.actors:
+            positionX = unit.position[0] * 300 / world.size[0]
+            positionY = unit.position[1] * 300 / world.size[1] + 600
+            pygame.draw.rect(DISPLAYSURF, green, positionX, positionY, unit.size/32, unit.size/32)
+            
+        # draw interface & make trigger
+        # draw command & make trigger
+        
+def distance(positionX, positionY):
+    return math.sqrt((positionX[0]-positionY[0])**2 + (positionX[1] - positionY[1])**2)
+        
+class Cactor:
+    pass
+
+class Cunit(Cactor):
+    pass
+
+class Cworker(Cunit):
+    pass
+
+class Cwarrior(Cunit):
+    pass
+
+class Carcher(Cunit):
+    pass
+
+class Cknight(Cunit):
+    pass
+
+class Cstructure(Cactor):
+    pass
+
+class Ctownhall(Cstructure):
+    pass
+
+class Chouse(Cstructure):
+    pass
+
+class Cbarrack(Cstructure):
+    pass
+
             
