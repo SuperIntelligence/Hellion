@@ -248,5 +248,33 @@ class Cinterface:
                 pass
             elif func == "buildbarrack":
                 pass
+            elif func == "moveCommand":
+                self.cancel()
+            elif func == "attackCommand":
+                self.cancel()
+            elif func == "patrolCommand":
+                self.cancel()
+            elif func == "stopCommand":
+                pass
+            elif func == "holdCommand":
+                pass
+            elif func == "gatherCommand":
+                self.cancel()
+            elif func == "buildtownhallCommand":
+                self.cancel()
+            elif func == "buildthouseCommand":
+                self.cancel()
+            elif func == "buildbarrackCommand":
+                self.cancel()
+            elif func == "phalanxCommand":
+                pass
+            elif func == "unphalanxCommand":
+                pass
+        elif mousebutton == 4:
+            pass
+        elif mousebutton == 5:
+            pass
+        
+    # render and processinput
             
             
