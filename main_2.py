@@ -179,7 +179,7 @@ class Cinterface:
         self.state = "normal"
         
     # process trigger
-    def processTrigger(self, callback, mousebutton):
+    def processTrigger(self, callback, mousebutton, mouseDownX, mouseDownY, mouseUpX, mouseUpY):
         # mousebutton: 1-leftclick, 2-middleclick, 3-rightclick, 4-scrollup, 5-scrolldown
         func = callback[0]
         if mousebutton == 1:
@@ -204,23 +204,23 @@ class Cinterface:
             elif func == "buildbarrack":
                 self.buildbarrack()
             elif func == "moveCommand":
-                self.moveCommand(callback[1], callback[2])
+                self.moveCommand(mouseDownX, mouseDownY)
             elif func == "attackCommand":
-                self.attackCommand(callback[1], callback[2])
+                self.attackCommand(mouseDownX, mouseDownY)
             elif func == "patrolCommand":
-                self.patrolCommand(callback[1], callback[2])
+                self.patrolCommand(mouseDownX, mouseDownY)
             elif func == "stopCommand":
                 self.stopCommand()
             elif func == "holdCommand":
                 self.holdCommand()
             elif func == "gatherCommand":
-                self.gatherCommand(callback[1], callback[2])
+                self.gatherCommand(mouseDownX, mouseDownY)
             elif func == "buildtownhallCommand":
-                self.buildtownhallCommand(callback[1], callback[2])
+                self.buildtownhallCommand(mouseDownX, mouseDownY)
             elif func == "buildhouseCommand":
-                self.buildhouseCommand(callback[1], callback[2])
+                self.buildhouseCommand(mouseDownX, mouseDownY)
             elif func == "buildbarrackCommand":
-                self.buildbarrackCommand(callback[1], callback[2])
+                self.buildbarrackCommand(mouseDownX, mouseDownY)
             elif func == "phalanxCommand":
                 self.phalanxCommand()
             elif func == "unphalanxCommand":
@@ -299,6 +299,30 @@ class Cinterface:
             pygame.draw.rect(DISPLAYSURF, green, positionX, positionY, unit.size/32, unit.size/32)
             
         # draw interface & make trigger
+        if len(self.troops) == 1:
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,750), 3)
+            pygame.draw.line(DISPLAYSURF, black, (300,750), (450,750), 3)
+            self.mouseTriggers.append([300,600,150,150,["clickActorInterface", self.troops[0]]])
+            # draw image
+        elif len(self.troops) >= 2:
+            pygame.draw.line(DISPLAYSURF, black, (375,600), (375,900))
+            pygame.draw.line(DISPLAYSURF, black, (450,600), (450,900))
+            pygame.draw.line(DISPLAYSURF, black, (525,600), (525,900))
+            pygame.draw.line(DISPLAYSURF, black, (600,600), (600,900))
+            pygame.draw.line(DISPLAYSURF, black, (675,600), (675,900))
+            pygame.draw.line(DISPLAYSURF, black, (750,600), (750,900))
+            pygame.draw.line(DISPLAYSURF, black, (825,600), (825,900))
+            pygame.draw.line(DISPLAYSURF, black, (300,700), (900,700))
+            pygame.draw.line(DISPLAYSURF, black, (300,800), (900,800))
+            
+            for i in range(len(self.troops)):
+                x = i % 8
+                y = int(i / 8)
+                troop = self.troops[i]
+                img = pygame.image.load(troop.image)
+                img = pygame.transform.scale(img, (69,90))
+                DISPLAYSURF.blit(img, (303+x*75, 605+y*100))
+                self.mouseTriggers.append([300+x*75, 600+y*100, 75,100, ["clickMultiInterface", self.troops[i]]])
         # draw command & make trigger
         
 def distance(positionX, positionY):
