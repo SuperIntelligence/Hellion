@@ -324,12 +324,325 @@ class Cinterface:
                 DISPLAYSURF.blit(img, (303+x*75, 605+y*100))
                 self.mouseTriggers.append([300+x*75, 600+y*100, 75,100, ["clickMultiInterface", self.troops[i]]])
         # draw command & make trigger
-        
-def distance(positionX, positionY):
-    return math.sqrt((positionX[0]-positionY[0])**2 + (positionX[1] - positionY[1])**2)
-        
+        if self.state == "normal":
+            # make trigger in map
+            mouseTrigger.append([0,0,1200,600,["clickMap"]])
+            
+            if len(self.troops) >= 1:
+                ismoveable = True
+                isstopable = True
+                isattackable = True
+                ispatrolable = True
+                isholdable = True
+                
+                isgatherable = True
+                isbuildable = True
+                isphalanxable = True
+                isunphalanxable = True
+                
+            for troop in self.troops:
+                if self.ismoveable == False:
+                    ismoveable = False
+                if self.isstopable == False:
+                    isstopable = False
+                if self.isattackable == False:
+                    isattackable = False
+                if self.ispatrolable == False:
+                    ispatrolable = False
+                if self.isholdable == False:
+                    isholdable = False
+                if self.isgatherable == False:
+                    isgatherable = False
+                if self.isbuildable == False:
+                    isbuildable = False
+                if self.isphalanxable == False:
+                    isphalanxable = False
+                if self.isunphalanxable == False:
+                    isunphalanxable = False
+                
+            if ismoveable == True:
+                img = pygame.image.load("image/move.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(902,602))
+                mouseTriggers.append([900,600,60,60,["move"]])
+                keyboardTriggers.append(K_m, ["move"])
+            if isstopable == True:
+                img = pygame.image.load("image/stop.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(962,602))
+                mouseTriggers.append([960,600,60,60,["stop"]])
+                keyboardTriggers.append(K_s, ["stop"])
+            if isattackable == True:
+                img = pygame.image.load("image/attack.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(1022,602))
+                mouseTriggers.append([1020,600,60,60,["attack"]])
+                keyboardTriggers.append(K_a, ["attack"])
+            if ispatrolable == True:
+                img = pygame.image.load("image/patrol.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(1082,602))
+                mouseTriggers.append([1080,600,60,60,["patrol"]])
+                keyboardTriggers.append(K_p, ["patrol"])
+            if isholdable == True:
+                img = pygame.image.load("image/hold.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(1142,602))
+                mouseTriggers.append([1140,600,60,60,["hold"]])
+                keyboardTriggers.append(K_h, ["hold"])
+            if isgatherable == True:
+                img = pygame.image.load("image/gather.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(902,662))
+                mouseTriggers.append([900,660,60,60,["gather"]])
+                keyboardTriggers.append(K_g, ["gather"])
+            if isbuildable == True:
+                img = pygame.image.load("image/build.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(902,782))
+                mouseTriggers.append([900,780,60,60,["build"]])
+                keyboardTriggers.append(K_b, ["build"])
+            if isphalanxable == True:
+                img = pygame.image.load("image/phalanx.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(902,842))
+                mouseTriggers.append([900,840,60,60,["phalanx"]])
+                keyboardTriggers.append(K_z, ["phalanx"])
+            if ismoveable == True:
+                img = pygame.image.load("image/unphalanx.png")
+                img = pygame.transform.scale(img,(56,56))
+                DISPLAYSURF.blit(img,(962,842))
+                mouseTriggers.append([960,840,60,60,["unphalanx"]])
+                keyboardTriggers.append(K_x, ["unphalanx"])
+            
+        elif self.state == "move":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "attack":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "patrol":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "gather":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "buildtownhall":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "buildhouse":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "buildbarrack":
+            # we also make trigger.
+            text = BASICFONT.render('LMB: Select Target', True, black)
+            DISPLAYSURF.blit(text, (920, 700))
+            text = BASICFONT.render('RMB: Cancel', True, black)
+            DISPLAYSURF.blit(text, (920, 750))
+            
+        elif self.state == "selectbuilding":
+            img = pygame.image.load("image/buildtownhall.png")
+            img = pygame.transform.scale(img, (56,56))
+            DISPLAYSURF.blit(img, (902,602))
+            mouseTriggers.append([900,600,60,60,["buildtownhall"]])
+            keyboardTriggers.append(K_t, ["buildtownhall"])
+            
+            img = pygame.image.load("image/buildhouse.png")
+            img = pygame.transform.scale(img, (56,56))
+            DISPLAYSURF.blit(img, (962,602))
+            mouseTriggers.append([960,600,60,60,["buildhouse"]])
+            keyboardTriggers.append(K_s, ["buildhouse"])
+            
+            img = pygame.image.load("image/buildbarrack.png")
+            img = pygame.transform.scale(img, (56,56))
+            DISPLAYSURF.blit(img, (1022,602))
+            mouseTriggers.append([1020,600,60,60,["buildbarrack"]])
+            keyboardTriggers.append(K_b, ["buildbarrack"])
+            
+        # process input
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONDOWN:
+                self.mouseDownX, self.mouseDownY = event.pos
+            elif event.type == MOUSEBUTTONUP:
+                self.mouseUpX, self.mouseUpY = event.pos
+                
+                for mouseTrigger in self.mouseTriggers:
+                    if mouseTrigger[0] < self.mouseUpX and mouseTrigger[0] + mouseTrigger[2] > self.mouseUpX and mouseTrigger[1] < self.mouseUpY and moueTrigger[1] + mouseTrigger[3] > self.mouseUpY and mouseTrigger[0] < self.mouseDownX and mouseTrigger[0] + mouseTrigger[2] > self.mouseDownX and mouseTrigger[1] < self.mouseDownY and mouseTrigger[1] + mouseTrigger[3] > self.mouseDownY:
+                        self.processTrigger(mouseTrigger[4], event.button, self.mouseDownX, self.mouseDownY, self.mouseUpX, self.mouseUpY)
+                        
+
 class Cactor:
-    pass
+    name = "" # worker, warrior, archer, townhall, house, barrack, food
+    domain = "" # unit, structure, item, resource
+    
+    image = ""
+    portrait = ""
+    troopsicon = ""
+    
+    position = [0.0, 0.0]
+    size = 0
+    possession = 0 # player numbetr. 0 = neutral
+    
+    destination = [0.0, 0.0]
+    target = 0
+    source = [0.0, 0.0]
+    patrolstate = 0 # 0-move to destination, 1-move to source
+    
+    size = 0
+    
+    hp = [0,0]
+    sp = [0,0]
+    damage = 0
+    attackdelay = 0.f
+    attackcool = 0.f # if attackcool >= attackdelay, actor can attack
+    armor = 0
+    reach = 0
+    sight = 0
+    agro = 0
+    speed = 0.0
+    
+    food = 0 # for gathering
+    maxfood = 0
+    
+    # command
+    # idle, moveground, movetarget, stop, attackground, attacktarget, patrolground, patroltarget, hold
+    # gather, buildtownhall, buildhouse, buildbarrack, phalanx, unphalanx
+    # processworker, processwarrior, processarcher, processknight, rallypoint
+    command = "idle
+    
+    # if domain == "unit"
+    ismoveable = False
+    isstopable = False
+    isattackable = False
+    ispatrolable = False
+    isholdable = False
+    
+    isgatherable = False
+    isbuildable = False
+    
+    isphalanxable = False
+    isunphalanxable = False
+    
+    # if domain == "structure"
+    isprocessworkerable = False
+    isprocesswarriorable = False
+    isprocessarcherable = False
+    isprocessknightable = False
+    israllypointable = False
+    
+    def distance(positionX, positionY):
+        return math.sqrt((positionX[0]-positionY[0])**2 + (positionX[1]-positionY[1])**2)
+    
+    def idle():
+        if self.domain == "unit":
+            for actor in world.actors:
+                if actor.possess != self.possess and distance(actor.position, self.position) <= self.reach:
+                    if self.attackcool >= self.attackdelay:
+                        if self.damage > actor.armor + 1:
+                            actor.hp[0] -= self.damage - actor.armor
+                        else:
+                            actor.hp[0] -= 1
+                    elif actor.possess != self.possess and distance(actor.position, self.position) <= self.agro:
+                        deltaX = actor.position[0] - self.position[0]
+                        deltaY = actor.position[1] - self.position[1]
+                        hop = self.speed / FPS
+                        
+                        moveX = (deltaX**2 / (deltaX**2 + deltaY**2)) * hop
+                        moveY = (deltaY**2 / (deltaX**2 + deltaY**2)) * hop
+                        if deltaX > moveX:
+                            self.position[0] += moveX
+                            self.position[1] += moveY
+                        else:
+                            self.position[0] += deltaX
+                            self.position[1] += deltaY
+                        break
+            elif self.domain == "structure":
+                pass
+    
+    def moveground():
+        pass
+    
+    def movetarget():
+        pass
+    
+    def stop():
+        pass
+    
+    def attackground():
+        pass
+    
+    def attacktarget():
+        pass
+    
+    def patrolground():
+        pass
+    
+    def patroltarget():
+        pass
+    
+    def hold():
+        pass
+    
+    def gather():
+        pass
+    
+    def buildtownhall():
+        pass
+    
+    def buildhouse():
+        pass
+    
+    def buildbarrack():
+        pass
+    
+    def phalanx():
+        pass
+    
+    def unphalanx():
+        pass
+    
+    def processworker():
+        pass
+    
+    def processwarrior():
+        pass
+    
+    def processarcher():
+        pass
+    
+    def processknight():
+        pass
+    
+    def action():
+        pass
+     
 
 class Cunit(Cactor):
     pass
